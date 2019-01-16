@@ -1,0 +1,22 @@
+.carousel {
+  overflow: hidden;
+  .carousel-window {
+    height: 100%;
+    width: 999999px;
+
+    .carousel-item {
+      height: 100%;
+      position: relative;
+      float:left;
+
+      .carousel-item-image {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        max-height: 100%;
+        max-width: 100%;
+        z-index: -1;
+      }
+    }
+  }
+}
