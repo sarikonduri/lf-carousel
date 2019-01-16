@@ -30,10 +30,10 @@ export class Carousel {
         this.carouselWindow = document.createElement("div");
 
         this.carouselWindow.classList.add("carousel-window");
-        const dots = document.createElement("div");
-        dots.classList.add("dots");
+        this.dots = document.createElement("div");
+        this.dots.classList.add("dots");
 
-        Array.from(this.element.children).forEach(child => {
+        Array.from(this.element.children).forEach((child, index) => {
             const imageUrl = child.getAttribute("attr.image");
 
             const imageNode = document.createElement("img");
@@ -49,8 +49,9 @@ export class Carousel {
 
             const dot = document.createElement("div");
             dot.classList.add("dot");
+            dot.addEventListener("click", this.setItem.bind(this, index));
 
-            dots.appendChild(dot)
+            this.dots.appendChild(dot);
         });
 
 
@@ -60,28 +61,55 @@ export class Carousel {
         //Add arrows
         const leftArrow = document.createElement("div");
         leftArrow.classList.add("left-arrow");
+        leftArrow.addEventListener("click", this.setPrevItem.bind(this));
 
         const rightArrow = document.createElement("div");
         rightArrow.classList.add("right-arrow");
+        rightArrow.addEventListener("click", this.setNextItem.bind(this));
 
-
-
-        // this.element.append(leftArrow);
-        // this.element.append(rightArrow);
+        this.element.append(leftArrow);
+        this.element.append(rightArrow);
+        this.element.append(this.dots);
     }
 
     registerCarouselTimer() {
-        setInterval(this.changeCarousel.bind(this), this.config.interval);
+        setInterval(this.setNextItem.bind(this), this.config.interval);
     }
 
-    changeCarousel() {
-        this.activeItem++;
-        this.activeItem %= this.totalItems;
+    setNextItem() {
+        let activeItem = this.activeItem;
 
-        this.setItem(this.activeItem);
+        activeItem++;
+        activeItem %= this.totalItems;
+
+        this.setItem(activeItem);
+    }
+
+    setPrevItem() {
+        let activeItem = this.activeItem;
+
+        activeItem--;
+        if(activeItem < 0) {
+            activeItem = this.totalItems - 1;
+        }
+
+        this.setItem(activeItem);
     }
 
     setItem(index) {
+        this.activeItem = index;
         this.carouselWindow.style.marginLeft = (- (this.width * this.activeItem)) + "px";
+
+        this.setActiveItemDot();
+    }
+
+    setActiveItemDot() {
+        Array.from(this.dots.children).forEach((dot, index) => {
+            if(this.activeItem === index) {
+                dot.style.backgroundColor = "rgba(255,255,255,0.5)";
+            } else {
+                dot.style.backgroundColor = "rgba(100,100,100,0.5)";
+            }
+        });
     }
 }

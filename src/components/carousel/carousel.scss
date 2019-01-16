@@ -29,26 +29,50 @@
   .left-arrow {
     width: 0;
     height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
 
-    border-bottom: 5px solid black;
+    border-right: 10px solid rgba(100,100,100, 0.5);
 
     position: absolute;
     left: 0;
     top: 50%;
+
+    cursor: pointer;
   }
 
   .right-arrow {
     width: 0;
     height: 0;
-    border-top: 60px solid transparent;
-    border-bottom: 60px solid transparent;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
 
-    border-left: 60px solid green;
+    border-left: 10px solid rgba(100,100,100, 0.5);
 
     position: absolute;
     right: 0;
     top: 50%;
+
+    cursor: pointer;
+  }
+
+  .dots {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    .dot {
+      height: 25px;
+      width: 25px;
+      background-color: rgba(100,100,100,0.5);
+      border-radius: 50%;
+      display: inline-block;
+      cursor: pointer;
+
+      & + .dot {
+        margin-left: 10px;
+      }
+    }
   }
 }
