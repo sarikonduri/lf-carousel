@@ -1,13 +1,18 @@
 .carousel {
   overflow: hidden;
+  position: relative;
+
   .carousel-window {
     height: 100%;
     width: 999999px;
+    transition: all 1s;
 
     .carousel-item {
       height: 100%;
       position: relative;
       float:left;
+      text-align: center;
+      overflow: hidden;
 
       .carousel-item-image {
         position: absolute;
@@ -16,7 +21,34 @@
         max-height: 100%;
         max-width: 100%;
         z-index: -1;
+        transform: translate(-50%, 0)
       }
     }
+  }
+
+  .left-arrow {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+
+    border-bottom: 5px solid black;
+
+    position: absolute;
+    left: 0;
+    top: 50%;
+  }
+
+  .right-arrow {
+    width: 0;
+    height: 0;
+    border-top: 60px solid transparent;
+    border-bottom: 60px solid transparent;
+
+    border-left: 60px solid green;
+
+    position: absolute;
+    right: 0;
+    top: 50%;
   }
 }
