@@ -1,7 +1,12 @@
 const path = require("path");
 
 module.exports = {
-    entry: "./src/js/index.js",
+    devServer: {
+        openPage: '/',
+        compress: true,
+        port: 9000
+    },
+    entry: ["./src/scripts/index.js", './src/styles/styles.scss'],
     output: {
         path: path.resolve(__dirname, "public/js"),
         filename: "bundle.js"
@@ -14,9 +19,22 @@ module.exports = {
                 use: {
                     loader: "babel-loader",
                     options: {
-                        presets: ["babel-preset-env"]
+                        presets: ["@babel/preset-env"]
                     }
                 }
+            },
+            {
+                test: /\.scss$/,
+                use: [{
+                    loader: "style-loader"
+                }, {
+                    loader: "css-loader"
+                }, {
+                    loader: "sass-loader",
+                    options: {
+                        includePaths: ["src/"]
+                    }
+                }]
             }
         ]
     }
