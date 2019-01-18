@@ -27,9 +27,9 @@ export class Carousel {
         this.element.classList.add("carousel");
         this.element.style.height = this.config.height + "px";
 
-        this.carouselWindow = document.createElement("div");
+        // this.carouselWindow = document.createElement("div");
 
-        this.carouselWindow.classList.add("carousel-window");
+        // this.carouselWindow.classList.add("carousel-window");
         this.dots = document.createElement("div");
         this.dots.classList.add("dots");
 
@@ -45,7 +45,7 @@ export class Carousel {
 
             child.style.width = this.width + "px";
 
-            this.carouselWindow.appendChild(child);
+            // this.carouselWindow.appendChild(child);
 
             const dot = document.createElement("div");
             dot.classList.add("dot");
@@ -56,7 +56,7 @@ export class Carousel {
 
 
 
-        this.element.append(this.carouselWindow);
+        // this.element.append(this.carouselWindow);
 
         //Add arrows
         const leftArrow = document.createElement("div");
@@ -67,9 +67,11 @@ export class Carousel {
         rightArrow.classList.add("right-arrow");
         rightArrow.addEventListener("click", this.setNextItem.bind(this));
 
-        this.element.append(leftArrow);
-        this.element.append(rightArrow);
-        this.element.append(this.dots);
+        this.element.appendChild(leftArrow);
+        this.element.appendChild(rightArrow);
+        this.element.appendChild(this.dots);
+
+        this.setItem(0);
     }
 
     registerCarouselTimer() {
@@ -97,10 +99,39 @@ export class Carousel {
     }
 
     setItem(index) {
-        this.activeItem = index;
-        this.carouselWindow.style.marginLeft = (- (this.width * this.activeItem)) + "px";
+        if(!this.disableClicks) {
+            this.disableClicks = true;
+            this.activeItem = index;
 
-        this.setActiveItemDot();
+            let currentItem = index;
+            let prevItem = index - 1;
+
+            if (prevItem < 0) {
+                prevItem = this.totalItems - 1;
+            }
+
+            this.element.children[currentItem].classList.add("move-next");
+
+            setTimeout(() => {
+                this.element.children[prevItem].classList.add("move-left");
+                this.element.children[currentItem].classList.add("move-left");
+
+                //after transition completes
+                setTimeout(() => {
+                    this.element.children[prevItem].classList.remove("move-left");
+                    this.element.children[prevItem].classList.remove("active");
+
+                    this.element.children[currentItem].classList.remove("move-left");
+                    this.element.children[currentItem].classList.remove("move-next");
+
+                    this.element.children[currentItem].classList.add("active");
+                    this.disableClicks = false;
+                }, 1000);
+            }, 10);
+            // this.carouselWindow.style.marginLeft = (- (this.width * this.activeItem)) + "px";
+
+            this.setActiveItemDot();
+        }
     }
 
     setActiveItemDot() {

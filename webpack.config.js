@@ -6,7 +6,7 @@ module.exports = {
         compress: true,
         port: 9000
     },
-    entry: ["./src/scripts/index.js", './src/styles/styles.scss'],
+    entry: ["@babel/polyfill", "./src/scripts/index.js", './src/styles/styles.scss'],
     output: {
         path: path.resolve(__dirname, "public/js"),
         filename: "bundle.js"
